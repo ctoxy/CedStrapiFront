@@ -1,53 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import {BrowserRouter , Switch, Route } from 'react-router-dom';
 import './App.css'
-import Post from './components/Post';
+import Home from './pages/Home';
 
-
-const mockPosts = [
-  {
-    likes:20,
-    description: "the changed description",
-    image: {
-      url: "/uploads/Capture_358e809b5a.PNG"
-    }
-  }, 
-  {
-    likes:20,
-    description: "the changed description",
-    image: {
-      url: "/uploads/Capture_358e809b5a.PNG"
-      }
-  },
-]
 function App() {
-
-  /*appel de state sur les deux etats a un tableau vide*/
-  const [posts, setPosts ] = useState([]);
-  /*appel de setstate pour popularité les poste sur un echaantillon ici mockPosts en second param tableau vide pour eviter loop infini */
-  useEffect( () => {
-    const getPosts = async () => {
-      const response = await fetch('http://localhost:1337/posts')
-      const data = await response.json()
-      setPosts(data)
-    }
-    getPosts()
-  },[])
-
   return (
     <div className="App">
-     { posts.map( post => (
-      <Post
-        likes={post.likes}
-        description={post.description}
-        url={post.image && post.image.url}
-      />
-     ))}
-      
-    
+      <h2>Ced Application</h2>
+      <BrowserRouter>
+        <Switch>
+          <Route path="/" exact component={Home} />
+        </Switch>
+      </BrowserRouter>
     </div>
-        
-      
-  );
+  )
 }
 
 export default App;
