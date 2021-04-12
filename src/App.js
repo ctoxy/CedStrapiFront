@@ -1,9 +1,9 @@
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
 import './App.css'
 import Post from './components/Post';
 
 
-const posts = [
+const mockPosts = [
   {
     likes:20,
     description: "the changed description",
@@ -20,6 +20,19 @@ const posts = [
   },
 ]
 function App() {
+
+  /*appel de state sur les deux etats a un tableau vide*/
+  const [posts, setPosts ] = useState([]);
+  /*appel de setstate pour popularité les poste sur un echaantillon ici mockPosts en second param tableau vide pour eviter loop infini */
+  useEffect( () => {
+    const getPosts = async () => {
+      const response = await fetch('http://localhost:1337/posts')
+      const data = await response.json()
+      setPosts(data)
+    }
+    getPosts()
+  },[])
+
   return (
     <div className="App">
      { posts.map( post => (
