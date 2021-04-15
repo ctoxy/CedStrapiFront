@@ -18,22 +18,27 @@ export default () => {
         
         try {
             const response = await fetch('http://localhost:1337/auth/local/', {
-            method: "POST",
-            headers: {
-                'Content-type': 'application/json'
-            },            
-            body: JSON.stringify({
-                identifier:email,
-                password
+                method: "POST",
+                headers: {
+                    'Content-type': 'application/json'
+                },            
+                body: JSON.stringify({
+                    identifier:email,
+                    password
+                })
             })
-        })
 
             const data = await response.json();
             console.log("data", data);
+            if (data.message) {
+                setError(data.message[0].messages[0].message)
+                return /*stop execution*/
+            }
+            
             
         } catch (err) {
             console.log("Exeption ", err);
-            setError(err);
+            setError('Something went wron' + err);
         }
 
 
@@ -66,6 +71,8 @@ export default () => {
                 <button>Login</button>
             
             </form>
+
+            {error && <p> { error }</p>}
         </div>
     )
 }
