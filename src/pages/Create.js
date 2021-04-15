@@ -1,4 +1,5 @@
-import React , {useState}from 'react';
+import React , {useState, useContext} from 'react';
+import { UserContext } from '../context/UserContext';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default () => {
@@ -11,11 +12,18 @@ export default () => {
 
     /*appel de state error sur les deux etats a un tableau vide*/
     const [error, setError ] = useState('');
+
+    /* utilisation du context user pour le login  */
+    const {user} = useContext(UserContext);
     
     
     /*recueil du formulaire */
     const handleSubmit = async (event) => {
         event.preventDefault();
+        if (!user) {
+            setError('Please log in first')
+            return
+        }
         if (!description) {
             setError('Please add a description')
             return
@@ -31,7 +39,10 @@ export default () => {
 
         try {
             const response = await fetch('http://localhost:1337/posts', {
-            method: "POST",            
+            method: "POST", 
+            headers: {
+                'Authorization': `Bearer ${user.jwt}`
+            },              
             body: formData
         })
 
