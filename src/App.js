@@ -4,6 +4,7 @@ import './App.css'
 import Nav from './components/Nav';
 import Home from './pages/Home';
 import Login from './pages/Login';
+import Signup from './pages/Signup';
 
 import Create from './pages/Create';
 import SinglePost from './pages/SinglePost';
@@ -18,6 +19,7 @@ function App() {
           <Route path="/" exact component={Home} />
           <Route path="/create" exact component={Create} />
           <Route path="/login" exact component={Login} />
+          <Route path="/signup" exact component={Signup} />
           <Route path="/:id" exact component={SinglePost} />
         </Switch>
       </BrowserRouter>
