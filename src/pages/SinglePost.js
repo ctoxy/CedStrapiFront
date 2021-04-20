@@ -36,7 +36,10 @@ export default({match, history}) => {
     /*methode DELETE */
     const handleDelete = async () => {
         const response = await fetch(`http://localhost:1337/posts/${id}`, {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${user.jwt}`
+            },
         })
         // eslint-disable-next-line no-unused-vars
         const data = await response.json();
@@ -52,7 +55,8 @@ export default({match, history}) => {
         const response = await fetch(`http://localhost:1337/posts/${id}`, {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${user.jwt}`
             },
             body: JSON.stringify({
                 description
@@ -84,19 +88,27 @@ export default({match, history}) => {
                             url={post.image && post.image.url}
                             likes= {post.likes}
                             />
-                            <button onClick={handleDelete}>Delete the post</button>
-                            <button onClick={() => setEdit(true)}>Edit the post</button>
-                            {edit && 
-                                <form onSubmit={handleEditSubmit}>
-                                    <input
-                                        value={description}
-                                        onChange={(event) => setDescription(event.target.value)}
-                                        placeholder="New Description"
-                                    />
-                                    <button >Confirm</button>
-                                
-                                </form>
+                            
+                            
+                            
+                            {user && 
+                                <React.Fragment>
+                                    <button onClick={handleDelete}>Delete the post</button>
+                                    <button onClick={() => setEdit(true)}>Edit the post</button>
+                                {edit && 
+                                    <form onSubmit={handleEditSubmit}>
+                                        <input
+                                            value={description}
+                                            onChange={(event) => setDescription(event.target.value)}
+                                            placeholder="New Description"
+                                        />
+                                        <button >Confirm</button>
+                                    
+                                    </form>                                
+                                }
+                                </React.Fragment>
                             }
+                            
                         </React.Fragment>
                     }
                     {!post.id &&
