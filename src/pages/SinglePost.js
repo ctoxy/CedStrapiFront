@@ -77,6 +77,8 @@ export default({match, history}) => {
         console.log("handleEditSubmit data", data);
 
     }
+
+    /*methode like a post*/
     const handleLike = async () => {
         try{
             const response = await fetch('http://localhost:1337/likes', {
@@ -89,13 +91,14 @@ export default({match, history}) => {
                     post: parseInt(id)
                 })
             })
-            fetchPost()
+            fetchPost();
+            reloader();
             
         } catch(err){
             console.log("Exception ", err)
         }
     }
-
+    /*methode unlike a post */
     const handleRemoveLike = async () => {
         try{
             const response = await fetch(`http://localhost:1337/likes/${id}`, {
@@ -104,7 +107,8 @@ export default({match, history}) => {
                     'Authorization': `Bearer ${user.jwt}`
                 }
             })
-            fetchPost()
+            fetchPost();
+            reloader();
             
         } catch(err){
             console.log("Exception ", err)
