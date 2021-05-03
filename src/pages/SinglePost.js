@@ -69,6 +69,26 @@ export default({match, history}) => {
         console.log("handleEditSubmit data", data);
 
     }
+    const handleLike = async () => {
+        try{
+            const response = await fetch('http://localhost:1337/likes', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${user.jwt}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    post: parseInt(id)
+                })
+            })
+            fetchPost()
+            
+        } catch(err){
+            console.log("Exception ", err)
+        }
+    }
+
+    
     useEffect(() => {
         
         fetchPost();
@@ -88,10 +108,16 @@ export default({match, history}) => {
                             url={post.image && post.image.url}
                             likes= {post.likes}
                             />
+
+                            {user &&
+                                <React.Fragment>                                    
+                                        <button onClick={handleLike}>Like</button>                                   
+                                </React.Fragment>
+                            }
                             
                             
                             
-                            {user && 
+                            {user && user.user && post && post.author && post.author.id === user.user.id &&
                                 <React.Fragment>
                                     <button onClick={handleDelete}>Delete the post</button>
                                     <button onClick={() => setEdit(true)}>Edit the post</button>
